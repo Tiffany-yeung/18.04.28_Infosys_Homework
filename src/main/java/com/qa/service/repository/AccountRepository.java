@@ -16,9 +16,9 @@ public class AccountRepository {
 	// business methods
 	
 	@Transactional(REQUIRED)
-	public Account create(Account account) {
-		em.persist(account);
-		return account;
+	public Account createAnAccount(Account newAccount) {
+		em.persist(newAccount);
+		return newAccount;
 	}
 	
 }

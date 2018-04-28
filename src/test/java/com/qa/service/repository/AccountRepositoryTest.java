@@ -55,7 +55,7 @@ public class AccountRepositoryTest {
 	public void shouldCreateAnAccount() {
 		// Creates a book
 		Account account = new Account("Tiffany", "Yeung", 23, "Tiffany.yeung@qa.com", "07412895568");
-		account = accountRepository.create(account);
+		account = accountRepository.createAnAccount(account);
 		// Checks the created book
 		assertNotNull(account);
 		assertNotNull(account.getId());
