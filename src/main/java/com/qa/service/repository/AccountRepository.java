@@ -7,13 +7,13 @@ import com.qa.persistence.domain.Account;
 
 public class AccountRepository {
 
-	//injection points
+	// injection points
 	@PersistenceContext(unitName = "accountsPU")
-    private EntityManager entityManager;
-	
-	//business methods
+	private EntityManager entityManager;
+
+	// business methods
 	public Account createAccount(Account newAccount) {
-        entityManager.persist(newAccount);
-        return newAccount;
-    }
+		entityManager.persist(newAccount);
+		return newAccount;
+	}
 }
