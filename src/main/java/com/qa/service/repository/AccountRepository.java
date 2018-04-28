@@ -11,12 +11,14 @@ public class AccountRepository {
 
 	// injection points
 	@PersistenceContext(unitName = "accountsPU")
-	private EntityManager entityManager;
+	private EntityManager em;
 
 	// business methods
+	
 	@Transactional(REQUIRED)
-	public Account createAccount(Account newAccount) {
-		entityManager.persist(newAccount);
-		return newAccount;
+	public Account create(Account account) {
+		em.persist(account);
+		return account;
 	}
+	
 }
