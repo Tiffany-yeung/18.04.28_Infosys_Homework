@@ -54,12 +54,19 @@ public class AccountRepositoryTest {
 	@InSequence(2)
 	public void shouldCreateAnAccount() {
 		// Creates a book
-		Account account = new Account("Tiffany", "Yeung", 23, "Tiffany.yeung@qa.com", "07412895568");
-		account = accountRepository.createAnAccount(account);
+		Account newAccount = new Account("Tiffany", "Yeung", 23, "Tiffany.yeung@qa.com", "07412895568");
+		newAccount = accountRepository.createAnAccount(newAccount);
 		// Checks the created book
-		assertNotNull(account);
-		assertNotNull(account.getId());
-		setAccountId(account.getId());
+		assertNotNull(newAccount);
+		assertNotNull(newAccount.getId());
+		setAccountId(newAccount.getId());
+	}
+	
+	@Test(expected = Exception.class)
+	@InSequence(3)
+	public void createInvalidAccount() {
+		Account newAccount = new Account("Tiffany", null, 23, "Tiffany.yeung@qa.com", "07412895568");
+		accountRepository.createAnAccount(newAccount);
 	}
 
 }

@@ -2,20 +2,34 @@ package com.qa.persistence.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 public class Account {
 
 	// attributes
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@NotNull @Size(min=1, max=50)
 	private String firstName;
+	
+	@NotNull @Size(min=1, max=50)
 	private String lastName;
+	
+	@NotNull @Min(1) @Max(100)
 	private Integer age;
+	
+	@NotNull @Size(min=10, max=50)
 	private String email;
+	
+	@NotNull @Size(min=11, max=11)
 	private String phoneNumber;
 
 	// constructors
