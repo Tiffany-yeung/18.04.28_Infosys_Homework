@@ -32,11 +32,8 @@ public class AccountRepositoryTest {
 	@Deployment
 	public static Archive<?> createDeploymentPackage() {
 
-		return ShrinkWrap.create(JavaArchive.class)
-				.addClass(Account.class)
-				.addClass(AccountRepository.class)
-				.addClass(TextUtil.class)
-				.addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
+		return ShrinkWrap.create(JavaArchive.class).addClass(Account.class).addClass(AccountRepository.class)
+				.addClass(TextUtil.class).addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
 				.addAsManifestResource("META-INF/test-persistence.xml", "persistence.xml");
 	}
 
@@ -50,34 +47,43 @@ public class AccountRepositoryTest {
 	@Test
 	@InSequence(2)
 	public void createAnAccountTest() {
-		// Creates a book
-		Account newAccount = new Account("Tiffany", "Yeung", 23, "Tiffany.yeung@qa.com", "07412875548");
-		newAccount = accountRepository.createAnAccount(newAccount);
-		// Checks the created book
-		assertNotNull(newAccount);
-		assertNotNull(newAccount.getId());
-		accountId = newAccount.getId();
+		// Creates an account
+		Account newAccount1 = new Account("Tiffany", "Yeung", 23, "Tiffany.yeung@qa.com", "07412875548");
+		newAccount1 = accountRepository.createAnAccount(newAccount1);
+		// Checks the created account
+		assertNotNull(newAccount1);
+		assertNotNull(newAccount1.getId());
+		accountId = newAccount1.getId();
 	}
-	
+
 	@Test(expected = Exception.class)
 	@InSequence(3)
 	public void createAccountWithNullValueTest() {
-		Account newAccount2 = new Account("Tiffany", null, 23, "Tiffany.yeung@qa.com", "07412875548");
+		Account newAccount2 = new Account("Rachel", null, 24, "Rachel.OConnell@qa.com", "07875467864");
 		accountRepository.createAnAccount(newAccount2);
 	}
-	
+
 	@Test
 	@InSequence(4)
 	public void createAccountWithSpacesTest() {
-		// Creates a book
-		Account newAccount3 = new Account("Tiffany", "Yeung", 23, "Tif  fany.yeu ng@q   a.com", "0  74 128   75548");
+		// Creates an account
+		Account newAccount3 = new Account("Ryan", "Prince", 24, "Rya   n .p  rince@   qa.com", "077   5672  365 8");
 		newAccount3 = accountRepository.createAnAccount(newAccount3);
-		// Checks the created book
-		assertEquals("Tiffany.yeung@qa.com", newAccount3.getEmail());
-		assertEquals("07412875548", newAccount3.getPhoneNumber());
+		// Checks the created account
+		assertEquals("Ryan.prince@qa.com", newAccount3.getEmail());
+		assertEquals("07756723658", newAccount3.getPhoneNumber());
 		assertNotNull(newAccount3);
 		assertNotNull(newAccount3.getId());
 		accountId = newAccount3.getId();
 	}
 
+	@Test
+	@InSequence(5)
+	public void getAnAccountTest() {
+		// Finds the account
+		Account accountFound = accountRepository.getAnAccount(accountId);
+		// Checks the found account
+		assertNotNull(accountFound.getId());
+		assertEquals("Ryan", accountFound.getFirstName());
+	}
 }

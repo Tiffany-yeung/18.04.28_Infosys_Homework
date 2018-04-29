@@ -6,12 +6,14 @@ import javax.transaction.Transactional;
 import javax.validation.constraints.NotNull;
 
 import static javax.transaction.Transactional.TxType.REQUIRED;
+import static javax.transaction.Transactional.TxType.SUPPORTS;
 
 import javax.inject.Inject;
 
 import com.qa.persistence.domain.Account;
 import com.qa.util.TextUtil;
 
+@Transactional(SUPPORTS)
 public class AccountRepository {
 
 	// injection points
@@ -20,9 +22,8 @@ public class AccountRepository {
 
 	@Inject
 	private TextUtil textUtil;
-	
+
 	// business methods
-	
 	@Transactional(REQUIRED)
 	public Account createAnAccount(@NotNull Account newAccount) {
 		newAccount.setEmail(textUtil.sanitize(newAccount.getEmail()));
@@ -30,5 +31,8 @@ public class AccountRepository {
 		em.persist(newAccount);
 		return newAccount;
 	}
-	
+
+	public Account getAnAccount(@NotNull Long id) {
+		return em.find(Account.class, id);
+	}
 }
