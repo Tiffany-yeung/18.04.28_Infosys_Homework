@@ -51,12 +51,16 @@ public class AccountRepository {
 	}
 
 	@Transactional(REQUIRED)
-	public void updateAnAccount(@NotNull Long id, @NotNull Account correctAccount) {
+	public Account updateAnAccount(@NotNull Account correctAccount) {
 		correctAccount.setEmail(textUtil.sanitize(correctAccount.getEmail()));
 		correctAccount.setPhoneNumber(textUtil.sanitize(correctAccount.getPhoneNumber()));
-		Account wrongAccount = getAnAccount(id);
+		Account wrongAccount = getAnAccount(correctAccount.getId());
 		if (wrongAccount != null) {
 			em.merge(correctAccount);
+			return correctAccount;
+		}
+		else {
+			return null;
 		}
 	}
 }
