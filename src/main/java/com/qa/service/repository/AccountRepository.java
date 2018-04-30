@@ -43,10 +43,20 @@ public class AccountRepository {
 		TypedQuery<Account> query = em.createQuery("SELECT a FROM Account a ORDER BY a.id", Account.class);
 		return query.getResultList();
 	}
-	
+
 	@Transactional(REQUIRED)
-	public void deleteAnAccount(@NotNull Long id) {
+	public String deleteAnAccount(@NotNull Long id) {
 		em.remove(em.getReference(Account.class, id));
+		return "{\"message\":\"account deleted\"}";
 	}
-	
+
+	@Transactional(REQUIRED)
+	public void updateAnAccount(@NotNull Long id, @NotNull Account correctAccount) {
+		correctAccount.setEmail(textUtil.sanitize(correctAccount.getEmail()));
+		correctAccount.setPhoneNumber(textUtil.sanitize(correctAccount.getPhoneNumber()));
+		Account wrongAccount = getAnAccount(id);
+		if (wrongAccount != null) {
+			em.merge(correctAccount);
+		}
+	}
 }

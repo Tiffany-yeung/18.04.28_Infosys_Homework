@@ -49,14 +49,14 @@ public class AccountRepositoryTest {
 	@InSequence(2)
 	public void createAnAccountTest() {
 		// Creates an account
-		Account newAccount1 = new Account("Tiffany", "Yeung", 23, "Tiffany.yeung@qa.com", "07412875548");
+		Account newAccount1 = new Account("Tifany", "Young", 23, "Tifany.young@qa.com", "07412875548");
 		newAccount1 = accountRepository.createAnAccount(newAccount1);
 		// Checks the created account
 		assertNotNull(newAccount1);
 		assertNotNull(newAccount1.getId());
 		accountId = newAccount1.getId();
 	}
-	
+
 	@Test
 	@InSequence(3)
 	public void shouldHaveOneAccount() {
@@ -69,7 +69,7 @@ public class AccountRepositoryTest {
 		Account newAccount2 = new Account("Rachel", null, 24, "Rachel.OConnell@qa.com", "07875467864");
 		accountRepository.createAnAccount(newAccount2);
 	}
-	
+
 	@Test
 	@InSequence(5)
 	public void shouldStillHaveOneAccount() {
@@ -89,7 +89,7 @@ public class AccountRepositoryTest {
 		assertNotNull(newAccount3.getId());
 		accountId = newAccount3.getId();
 	}
-	
+
 	@Test
 	@InSequence(7)
 	public void shouldHaveTwoAccounts() {
@@ -111,7 +111,7 @@ public class AccountRepositoryTest {
 	public void getAllAccountsTest() {
 		assertEquals(2, accountRepository.getAllAccounts().size());
 	}
-	
+
 	@Test
 	@InSequence(10)
 	public void deleteAnAccount() {
@@ -121,10 +121,22 @@ public class AccountRepositoryTest {
 		Account accountDeleted = accountRepository.getAnAccount(2L);
 		assertNull(accountDeleted);
 	}
-	
+
 	@Test
 	@InSequence(11)
 	public void shouldHaveOneAccountLeft() {
 		assertEquals(1, accountRepository.getAllAccounts().size());
+	}
+
+	@Test
+	@InSequence(12)
+	public void updateAnAccount() {
+		// correct account details
+		Account correctAccount = new Account("Tiffany", "Yeung", 23, "Tiffany.yeung@qa.com", "07412875548");
+		// updates account
+		accountRepository.updateAnAccount(1L, correctAccount);
+		// Checks the updated account
+		assertEquals("Tiffany", correctAccount.getFirstName());
+		assertNotNull(correctAccount);
 	}
 }
