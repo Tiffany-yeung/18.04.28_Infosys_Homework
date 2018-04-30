@@ -8,6 +8,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.validation.constraints.Min;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -43,8 +44,7 @@ public class AccountEndpoint {
 		Account accountToFind = accountRepository.getAnAccount(id);
 		if (accountToFind == null) {
 			return Response.status(Response.Status.NOT_FOUND).build();
-		}
-		else {
+		} else {
 			return Response.ok(accountToFind).build();
 		}
 	}
@@ -55,9 +55,15 @@ public class AccountEndpoint {
 		List<Account> allAccounts = accountRepository.getAllAccounts();
 		if (allAccounts.size() == 0) {
 			return Response.status(Response.Status.NO_CONTENT).build();
-		}
-		else {
+		} else {
 			return Response.ok(allAccounts).build();
 		}
+	}
+
+	@DELETE
+	@Path("/{id : \\d+}")
+	public Response deleteAnAccount(@PathParam("id") @Min(1) Long id) {
+		accountRepository.deleteAnAccount(id);
+		return Response.noContent().build();
 	}
 }
