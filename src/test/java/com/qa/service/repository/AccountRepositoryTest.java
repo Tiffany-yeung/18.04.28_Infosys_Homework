@@ -133,8 +133,9 @@ public class AccountRepositoryTest {
 	public void updateAnAccount() {
 		// correct account details
 		Account correctAccount = new Account("Tiffany", "Yeung", 23, "Tiffany.yeung@qa.com", "07412875548");
+		correctAccount.setId(1L);
 		// updates account
-		accountRepository.updateAnAccount(1L, correctAccount);
+		correctAccount = accountRepository.updateAnAccount(correctAccount);
 		// Checks the updated account
 		assertEquals("Tiffany", correctAccount.getFirstName());
 		assertNotNull(correctAccount);
