@@ -2,11 +2,14 @@ package com.qa.service.repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import javax.validation.constraints.NotNull;
 
 import static javax.transaction.Transactional.TxType.REQUIRED;
 import static javax.transaction.Transactional.TxType.SUPPORTS;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -34,5 +37,10 @@ public class AccountRepository {
 
 	public Account getAnAccount(@NotNull Long id) {
 		return em.find(Account.class, id);
+	}
+
+	public List<Account> getAllAccounts() {
+		TypedQuery<Account> query = em.createQuery("SELECT a FROM Account a ORDER BY a.id DESC", Account.class);
+		return query.getResultList();
 	}
 }
