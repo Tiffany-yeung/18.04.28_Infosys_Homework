@@ -86,4 +86,10 @@ public class AccountRepositoryTest {
 		assertNotNull(accountFound.getId());
 		assertEquals("Ryan", accountFound.getFirstName());
 	}
+
+	@Test
+	@InSequence(6)
+	public void getAllAccountsTest() {
+		assertEquals(2, accountRepository.getAllAccounts().size());
+	}
 }
