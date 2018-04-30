@@ -2,6 +2,7 @@ package com.qa.service.repository;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import javax.inject.Inject;
 
@@ -55,16 +56,28 @@ public class AccountRepositoryTest {
 		assertNotNull(newAccount1.getId());
 		accountId = newAccount1.getId();
 	}
+	
+	@Test
+	@InSequence(3)
+	public void shouldHaveOneAccount() {
+		assertEquals(1, accountRepository.getAllAccounts().size());
+	}
 
 	@Test(expected = Exception.class)
-	@InSequence(3)
+	@InSequence(4)
 	public void createAccountWithNullValueTest() {
 		Account newAccount2 = new Account("Rachel", null, 24, "Rachel.OConnell@qa.com", "07875467864");
 		accountRepository.createAnAccount(newAccount2);
 	}
+	
+	@Test
+	@InSequence(5)
+	public void shouldStillHaveOneAccount() {
+		assertEquals(1, accountRepository.getAllAccounts().size());
+	}
 
 	@Test
-	@InSequence(4)
+	@InSequence(6)
 	public void createAccountWithSpacesTest() {
 		// Creates an account
 		Account newAccount3 = new Account("Ryan", "Prince", 24, "Rya   n .p  rince@   qa.com", "077   5672  365 8");
@@ -76,20 +89,42 @@ public class AccountRepositoryTest {
 		assertNotNull(newAccount3.getId());
 		accountId = newAccount3.getId();
 	}
+	
+	@Test
+	@InSequence(7)
+	public void shouldHaveTwoAccounts() {
+		assertEquals(2, accountRepository.getAllAccounts().size());
+	}
 
 	@Test
-	@InSequence(5)
+	@InSequence(8)
 	public void getAnAccountTest() {
 		// Finds the account
-		Account accountFound = accountRepository.getAnAccount(accountId);
+		Account accountFound = accountRepository.getAnAccount(2L);
 		// Checks the found account
 		assertNotNull(accountFound.getId());
 		assertEquals("Ryan", accountFound.getFirstName());
 	}
 
 	@Test
-	@InSequence(6)
+	@InSequence(9)
 	public void getAllAccountsTest() {
 		assertEquals(2, accountRepository.getAllAccounts().size());
+	}
+	
+	@Test
+	@InSequence(10)
+	public void deleteAnAccount() {
+		// Deletes the 2nd account
+		accountRepository.deleteAnAccount(2L);
+		// Checks the deleted account
+		Account accountDeleted = accountRepository.getAnAccount(2L);
+		assertNull(accountDeleted);
+	}
+	
+	@Test
+	@InSequence(11)
+	public void shouldHaveOneAccountLeft() {
+		assertEquals(1, accountRepository.getAllAccounts().size());
 	}
 }

@@ -40,7 +40,13 @@ public class AccountRepository {
 	}
 
 	public List<Account> getAllAccounts() {
-		TypedQuery<Account> query = em.createQuery("SELECT a FROM Account a ORDER BY a.id DESC", Account.class);
+		TypedQuery<Account> query = em.createQuery("SELECT a FROM Account a ORDER BY a.id", Account.class);
 		return query.getResultList();
 	}
+	
+	@Transactional(REQUIRED)
+	public void deleteAnAccount(@NotNull Long id) {
+		em.remove(em.getReference(Account.class, id));
+	}
+	
 }
