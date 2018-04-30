@@ -3,6 +3,7 @@ package com.qa.interoperability;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 import java.net.URI;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.validation.constraints.Min;
@@ -40,8 +41,23 @@ public class AccountEndpoint {
 	@Produces(APPLICATION_JSON)
 	public Response getAnAccount(@PathParam("id") @Min(1) Long id) {
 		Account accountToFind = accountRepository.getAnAccount(id);
-		if (accountToFind == null)
+		if (accountToFind == null) {
 			return Response.status(Response.Status.NOT_FOUND).build();
-		return Response.ok(accountToFind).build();
+		}
+		else {
+			return Response.ok(accountToFind).build();
+		}
+	}
+
+	@GET
+	@Produces(APPLICATION_JSON)
+	public Response getAllAccounts() {
+		List<Account> allAccounts = accountRepository.getAllAccounts();
+		if (allAccounts.size() == 0) {
+			return Response.status(Response.Status.NO_CONTENT).build();
+		}
+		else {
+			return Response.ok(allAccounts).build();
+		}
 	}
 }
